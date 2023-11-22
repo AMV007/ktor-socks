@@ -23,12 +23,14 @@ dependencies {
 }
 
 tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "11"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "11"
-    }
+//    java.sourceCompatibility = JavaVersion.VERSION_17
+//
+//    compileKotlin {
+//        kotlinOptions.jvmTarget = "17"
+//    }
+//    compileTestKotlin {
+//        kotlinOptions.jvmTarget = "17"
+//    }
     test {
         useJUnitPlatform()
     }

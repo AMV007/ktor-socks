@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
  *
  * To create a [SOCKSServer], refer to the top level [socksServer] functions.
  */
-public open class SOCKSServer protected constructor(
+public open class SOCKSServer internal constructor(
     private val config: SOCKSConfig,
     context: CoroutineContext
 ): CoroutineScope {
@@ -56,11 +56,11 @@ public open class SOCKSServer protected constructor(
 
     private fun launchClientJob(clientSocket: Socket) = launch {
         clientSocket.useWithChannels { _, reader, writer ->
-            serveTheClient(clientSocket, reader, writer)
+            serveTheClient(reader, writer)
         }
     }
 
-    protected open suspend fun serveTheClient(socket: Socket, reader: ByteReadChannel, writer: ByteWriteChannel) {
+    protected open suspend fun serveTheClient(reader: ByteReadChannel, writer: ByteWriteChannel) {
         val handshake = SOCKSHandshake(reader, writer, config, selector)
         handshake.negotiate()
         handshake.hostSocket.useWithChannels { _, hostReader, hostWriter ->
